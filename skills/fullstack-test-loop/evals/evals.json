@@ -1,0 +1,23 @@
+{
+  "skill_name": "fullstack-test-loop",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我刚改了后端的 BaseDataService 添加了一个新的过滤条件，但不确定有没有破坏其他东西。帮我跑一下所有测试确保没问题。项目在当前目录。",
+      "expected_output": "Skill should: 1) Detect Spring Boot + Vue stack, 2) Run mvn test for backend, 3) Run vue-tsc for frontend, 4) Identify E2E script, 5) Report results in structured format",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "测试全都挂了，帮我修。后端报了 NullPointerException，前端 vue-tsc 也有类型错误。一个个来，先分析原因再修。",
+      "expected_output": "Skill should: 1) Run tests to see current state, 2) Cluster failures by root cause, 3) Build causal chains, 4) Fix backend NPE first (highest impact), 5) Fix frontend type errors, 6) Re-run to verify",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "run the full test suite and don't stop until everything passes. I changed the API response format from camelCase to snake_case and some stuff is probably broken.",
+      "expected_output": "Skill should: 1) Detect this is a cross-module contract change, 2) Run backend tests first, 3) Run frontend typecheck to find mismatched field names, 4) Run E2E to find API contract failures, 5) Fix in correct order: backend types → frontend interfaces → E2E assertions, 6) Loop until all pass",
+      "files": []
+    }
+  ]
+}

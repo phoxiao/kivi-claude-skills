@@ -1,0 +1,23 @@
+{
+  "skill_name": "prd",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我想做一个书签管理的 Chrome 扩展，支持标签分类、全文搜索和分享功能。帮我写个 PRD",
+      "expected_output": "Full PRD in Chinese with Chrome extension tech stack, MVP scope with P0-P3 priorities, data models for bookmarks/tags, and development phases in 'Phase N: Name' format",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "/prd specs/03_full_prd.md",
+      "expected_output": "Restructured PRD from the existing zhitu product analysis file, with all 10 sections properly filled, data models with field types, API specs, and Phase format compatible with /task-list",
+      "files": ["specs/03_full_prd.md"]
+    },
+    {
+      "id": 3,
+      "prompt": "I want to build a REST API for a task management system with teams, projects, and Kanban boards. Create a PRD for this.",
+      "expected_output": "English PRD with proper API design (CRUD endpoints for teams/projects/boards/tasks), data models with relationships, JWT auth model, and development phases",
+      "files": []
+    }
+  ]
+}
