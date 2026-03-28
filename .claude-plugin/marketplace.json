@@ -1,0 +1,14 @@
+{
+  "name": "kivi-claude-skills",
+  "owner": {
+    "name": "phoxiao"
+  },
+  "plugins": [
+    {
+      "name": "kivi-claude-skills",
+      "source": "./",
+      "description": "Personal Claude Code skills for deployment, debugging, testing, research, and project scaffolding",
+      "version": "1.0.0"
+    }
+  ]
+}

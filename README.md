@@ -4,8 +4,18 @@ Personal Claude Code skills for deployment, debugging, testing, research, and pr
 
 ## Installation
 
+```bash
+# Step 1: 添加仓库为 marketplace
+/plugin marketplace add phoxiao/kivi-claude-skills
+
+# Step 2: 从 marketplace 安装插件
+/plugin install kivi-claude-skills@phoxiao-kivi-claude-skills
 ```
-/plugin install kivixiao/kivi-claude-skills
+
+### Local Development
+
+```bash
+claude --plugin-dir ./path/to/kivi-claude-skills
 ```
 
 ## Skills
