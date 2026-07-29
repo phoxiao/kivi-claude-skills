@@ -35,6 +35,9 @@ claude --plugin-dir ./path/to/kivi-claude-skills
 | `autoresearch` | Autonomous ML experiment loop (Karpathy-inspired) |
 | `i18n` | Vue 3 internationalization workflow (scan/extract/audit) |
 | `hypercontext` | Spatial context awareness with ASCII architecture rendering |
+| `deep-read` | Deep reading of long material: triage → traceable evidence layer → bottom-up notes → tension map → inverted Feynman |
+| `mac-disk-cleanup` | macOS disk triage and cleanup: scan, classify, migrate to external, scheduled launchd job |
+| `tidy` | Directory tidying: recon, semantic classification, dedup, verified staged deletion, index generation |
 
 ## Usage
 

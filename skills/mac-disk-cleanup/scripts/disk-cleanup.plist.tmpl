@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>local.disk-cleanup</string>
+
+    <!--
+      脚本必须在内置盘（install-cron.sh 会拷到 ~/.local/bin/）。
+      不能直接指向外置盘路径：外置卷受 TCC 保护，launchd 拉起的 bash 无完全磁盘访问权限，
+      会 "Operation not permitted" (exit 126)。见 pitfalls L2。__HOME__ 由 install 脚本 sed 替换。
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>__HOME__/.local/bin/disk-cleanup-caches.sh</string>
+    </array>
+
+    <!-- 每天 13:00 检查；脚本内部判阈值，空间够就秒退 -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key><integer>13</integer>
+        <key>Minute</key><integer>0</integer>
+    </dict>
+
+    <!-- launchd PATH 极简，补 /usr/local/bin（orb 等在此，pitfalls L4） -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/homebrew/bin</string>
+    </dict>
+
+    <key>RunAtLoad</key><false/>
+    <key>LowPriorityIO</key><true/>
+    <key>Nice</key><integer>10</integer>
+
+    <key>StandardOutPath</key><string>/tmp/disk-cleanup.launchd.log</string>
+    <key>StandardErrorPath</key><string>/tmp/disk-cleanup.launchd.err</string>
+</dict>
+</plist>
