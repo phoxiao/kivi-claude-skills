@@ -1,3 +1,9 @@
+---
+name: i18n
+description: Vue 3 项目的国际化工作流——扫描硬编码中文、抽取到 locale 文件并替换成 $t() 调用、审计各语言 key 的完整性。当用户说「国际化/i18n/做多语言/提取中文/这个页面还没翻译/locale 文件对不上/加一门语言」，或者在 Vue 项目里看到模板和 TS 里散着写死的中文需要收拢时使用。非 Vue 项目、或者只是要翻译一段文本，不用它。
+argument-hint: '[scan | extract | audit]'
+---
+
 # /i18n — Vue 国际化工作流
 
 ## Description

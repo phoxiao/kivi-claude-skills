@@ -1,3 +1,8 @@
+---
+name: shipit
+description: 一条命令走完 git 提交、推送、必要时开 PR——按 Conventional Commits 格式（英文 type + 中文 subject），按文件名逐个暂存不用 git add -A，自动拦截 .env / 密钥这类敏感文件。当用户说「提交一下/推上去/发出去/shipit/commit 并 push」时使用。关键是**不要反问「要提交吗」也不要进 Plan Mode**——用户说 shipit 就是已经决定发了。只想看看改了什么、或者只要 commit 不要 push 时，不用它。
+---
+
 # /shipit — Git 提交推送一体化
 
 ## Description

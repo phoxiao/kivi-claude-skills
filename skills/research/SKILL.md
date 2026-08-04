@@ -1,3 +1,9 @@
+---
+name: research
+description: 结构化研究文档——竞品分析（功能矩阵 + 定价对比）、UX 审计（用 dev-browser 截图做启发式评估）、技术选型评估，产出固定格式的 Markdown 落到 docs/research/<类型>-<slug>-<日期>.md。当用户说「调研一下/做个竞品分析/这几个方案选哪个/审一下这个网站的体验/技术选型」并且需要一份能留档、能给别人看的文档时使用。只是想快速知道某个事实、或者要的是最近一个月的社区舆论（那是 last30days 的活），不用它。
+argument-hint: '[competitive <主题> | ux <url> | tech <问题>]'
+---
+
 # /research — 结构化研究文档
 
 ## Description

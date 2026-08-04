@@ -1,3 +1,9 @@
+---
+name: scaffold
+description: 生成标准化项目脚手架（Go+Gin+GORM / Python+FastAPI / Vue 3+TS+Element Plus / 全栈），带 CLAUDE.md、接 shared-infra 的 docker-compose、GHCR 部署流水线、集成测试骨架。当用户说「新建一个项目/开个新的 XX 项目/初始化项目/搭个脚手架/scaffold」时使用。这套模板内置了这台机器的既定约定（项目落在 side_project 下、镜像走 GHCR、API 字段 snake_case），比从零手搭少踩很多坑。往已有项目里加模块、加单个文件不用它。
+argument-hint: '[go | python | vue | fullstack] <项目名>'
+---
+
 # /scaffold — 标准化项目脚手架
 
 ## Description

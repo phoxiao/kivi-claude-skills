@@ -1,3 +1,9 @@
+---
+name: testloop
+description: 用 dev-browser 跑自主的「测试 → 诊断 → 修复 → 复验」循环，专测浏览器里的用户流程（导航、列表分页与空态、表单校验与提交、弹窗、登录态与路由守卫），每轮抓 console 报错和接口报错，最多三轮。当用户说「测一下这个页面/点一遍看有没有问题/这个流程走不通/testloop <url>」时使用。禁止改用 Playwright。要跑的是完整测试金字塔（编译、后端单测、前端类型检查、API 端到端）时用 fullstack-test-loop，那个覆盖面更大；这个只管浏览器里点得到的部分。
+argument-hint: '[<url> | all] [--focus=<区域>]'
+---
+
 # /testloop — 自主 Dev-Browser 测试循环
 
 ## Description

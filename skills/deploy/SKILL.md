@@ -1,3 +1,9 @@
+---
+name: deploy
+description: 中国服务器感知的部署工作流（GitHub Actions → SSH，镜像走 GHCR 不走 Docker Hub）。当用户说「部署/上线/发布/推到服务器/deploy <项目>」、要查各服务的部署状态、或者部署失败要排查时使用。尤其在出现 Docker Hub 拉取超时、GHCR 认证失败、SSH 连不上服务器这类中国网络环境特有的故障时，直接用这个 skill 的排查顺序，不要自己瞎试。本地跑 docker compose、改 CI 配置文件本身不算部署，不用它。
+argument-hint: '[项目名 | status | debug <项目名>]'
+---
+
 # /deploy — 中国服务器感知部署
 
 ## Description

@@ -1,7 +1,7 @@
 ---
 name: prd
 description: Generate structured PRD documents optimized for code agent consumption. Use this skill when the user wants to create a PRD, write product requirements, define a product spec, plan a new product or feature, convert rough ideas or meeting notes into structured requirements, or prepare specifications for task decomposition. Trigger on mentions of PRD, product requirements, product spec, feature spec, requirements document, or when the user describes a product idea and needs it formalized. Works with /task-list for seamless idea-to-implementation pipeline.
-argument-hint: [source-file-path]
+argument-hint: '[source-file-path]'
 ---
 
 # /prd -- Structured PRD Generation
