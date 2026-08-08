@@ -1,0 +1,70 @@
+{
+  "intent": "拼多多「多多视频」每日看视频打卡",
+  "device": "anchors written against 拼多多 App, 简体中文, iOS 18. Not yet replayed.",
+  "anchor_notes": [
+    "这个 flow 和另外两个不同：打卡不是点一下就完成的，要挂机看满一段视频。",
+    "WATCH_SECONDS 决定挂机多久，默认 120s；max_duration_s 必须留出余量，否则 deadline 会在断言前就把 flow 砍掉。",
+    "多多视频里到处是「现金」「提现」入口——tap_text 的 denylist 会拒绝点 提现/充值 这类文案，不要为了跑通去放宽它。"
+  ],
+  "steps": [
+    {
+      "action": "open_app",
+      "app": "${APP}",
+      "settle": 1.5
+    },
+    {
+      "action": "assert",
+      "type": "screen_any_of",
+      "value": ["拼多多", "首页", "推荐", "个人中心"],
+      "retries": 8,
+      "interval": 2.0
+    },
+    {
+      "action": "tap_text",
+      "any_of": ["多多视频", "视频"],
+      "prefer": "bottom",
+      "retries": 5
+    },
+    {
+      "action": "assert",
+      "type": "screen_any_of",
+      "value": ["打卡", "看视频", "关注", "推荐", "领现金"],
+      "retries": 6
+    },
+    {
+      "action": "tap_text",
+      "any_of": ["去打卡", "打卡", "看视频领", "去看视频"],
+      "exclude": ["已打卡", "打卡成功", "明日"],
+      "prefer": "first",
+      "retries": 5,
+      "skip_if": {
+        "type": "screen_any_of",
+        "value": ["已打卡", "打卡成功", "明日再来", "今日已完成"]
+      }
+    },
+    {
+      "action": "sleep",
+      "seconds": "${WATCH_SECONDS}"
+    },
+    {
+      "action": "assert",
+      "type": "screen_any_of",
+      "value": ["已打卡", "打卡成功", "已完成", "明日", "领取"],
+      "retries": 8,
+      "interval": 3.0,
+      "optional": true
+    },
+    {
+      "action": "tap_text",
+      "any_of": ["领取", "立即领取", "确认"],
+      "exclude": ["提现", "充值", "开通"],
+      "prefer": "largest",
+      "retries": 3,
+      "optional": true
+    },
+    {
+      "action": "sleep",
+      "seconds": 3
+    }
+  ]
+}

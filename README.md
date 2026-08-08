@@ -41,6 +41,8 @@ claude --plugin-dir ./path/to/kivi-claude-skills
 | `ui-fidelity` | Design→code fidelity loop: per-screen read, state matrix, token extraction, CV diff + VLM review, interaction assertions |
 | `autonomous-dev-loop` | Resumable autonomous task loop: fresh-context implementer subagent → orchestrator-run verification gate → independent code review before commit |
 | `finding-unknowns` | Surface unknown unknowns before rework: blind spot passes, throwaway prototypes, one-question interviews, decision-first plans, comprehension quizzes |
+| `iphone-task` | Run registered flows on a real iPhone via iPhone Mirroring — 京东签到 / 拼多多打卡 / 富途签到, text-anchored, no coordinates |
+| `iphone-script-forge` | Promote a raw iPhone recording into a reviewed, replay-tested, registered flow |
 
 ## Usage
 

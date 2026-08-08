@@ -1,0 +1,5 @@
+# Recovery flow. Cmd+1 lands on the Home Screen from anywhere, including from
+# inside a modal, so this needs no coordinates and cannot half-succeed.
+# Cmd+2 first dismisses any sheet that is swallowing the Home shortcut.
+iphone_app_switcher()
+iphone_home()

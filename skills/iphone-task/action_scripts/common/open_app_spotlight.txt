@@ -1,0 +1,14 @@
+# Open an app by name via Spotlight (Cmd+3). Resolution-independent and immune
+# to home screen rearrangement — see references/action-space.md.
+#
+# ASCII only: IPHONECLAW_TYPE_ASCII_ONLY drops Chinese characters, so APP must be
+# pinyin (jingdong, pinduoduo, futu) or the app's Latin name. iOS Spotlight
+# matches Chinese app names by pinyin.
+#
+# Step flows should prefer the engine's native `open_app` action instead — it
+# routes non-ASCII names through the clipboard and needs no ${} substitution,
+# whose syntax inside .txt bodies is still unconfirmed against the real parser.
+iphone_home()
+hotkey(key='cmd 3')
+type(content='${APP}')
+hotkey(key='enter')

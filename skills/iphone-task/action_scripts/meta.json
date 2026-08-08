@@ -1,0 +1,83 @@
+{
+  "flows": {
+    "reset_home": {
+      "file": "common/reset_home.txt",
+      "intent": "回到 iPhone 桌面，把手机恢复到已知起始状态",
+      "vars": {},
+      "preconditions": [],
+      "postconditions": [],
+      "idempotent": true,
+      "verified": true,
+      "max_duration_s": 15,
+      "notes": "Recovery flow. Run this after any precondition_failed. Pure hotkeys, nothing to calibrate."
+    },
+    "open_app_spotlight": {
+      "file": "common/open_app_spotlight.txt",
+      "intent": "按名字打开某个 iOS App（走 Spotlight 搜索，不依赖图标位置）",
+      "vars": { "APP": "required" },
+      "preconditions": [],
+      "postconditions": [],
+      "idempotent": true,
+      "verified": true,
+      "max_duration_s": 30,
+      "notes": "Postconditions intentionally empty — the caller knows what the app's first screen should show, this flow doesn't. APP must be ASCII/pinyin; step flows should use the engine's native open_app action, which handles Chinese via the clipboard."
+    },
+    "jd_checkin": {
+      "file": "flows/jd_checkin.json",
+      "intent": "京东每日签到领京豆",
+      "vars": { "APP": "jingdong" },
+      "preconditions": [],
+      "postconditions": [
+        {
+          "type": "screen_any_of",
+          "value": ["已签到", "签到成功", "明日再来", "明天再来", "已连续签到", "已领取"],
+          "retries": 6,
+          "interval": 2.0
+        }
+      ],
+      "idempotent": true,
+      "verified": false,
+      "teardown_home": true,
+      "max_duration_s": 150,
+      "notes": "UNVERIFIED — anchors written from the app's expected layout, never replayed on a real phone. Calibrate with screen_text.py before arming. 京东 moves the 签到 card between releases; fix the any_of strings in flows/jd_checkin.json, never add coordinates."
+    },
+    "pdd_video_checkin": {
+      "file": "flows/pdd_video_checkin.json",
+      "intent": "拼多多多多视频每日看视频打卡",
+      "vars": { "APP": "pinduoduo", "WATCH_SECONDS": "120" },
+      "preconditions": [],
+      "postconditions": [
+        {
+          "type": "screen_any_of",
+          "value": ["已打卡", "打卡成功", "今日已完成", "明日再来", "已完成"],
+          "retries": 8,
+          "interval": 3.0
+        }
+      ],
+      "idempotent": true,
+      "verified": false,
+      "teardown_home": true,
+      "max_duration_s": 300,
+      "notes": "UNVERIFIED. Unlike the other two, this one idles WATCH_SECONDS watching video, so max_duration_s must stay well above WATCH_SECONDS + navigation or the deadline kills it before the postcondition runs. Raise both together."
+    },
+    "futu_checkin": {
+      "file": "flows/futu_checkin.json",
+      "intent": "富途牛牛每日签到领牛币",
+      "vars": { "APP": "futu" },
+      "preconditions": [],
+      "postconditions": [
+        {
+          "type": "screen_any_of",
+          "value": ["已签到", "签到成功", "连续签到", "明日签到", "已领取"],
+          "retries": 6,
+          "interval": 2.0
+        }
+      ],
+      "idempotent": true,
+      "verified": false,
+      "teardown_home": true,
+      "max_duration_s": 150,
+      "notes": "UNVERIFIED. 富途 is a brokerage — the check-in itself only earns points, but trading, 下单 and 转账 live on the same navigation tree. The flow asserts screen_not_contains 买入/卖出/下单/委托 before each tap, on top of tap_text's global denylist. Do not relax either to make a broken run pass."
+    }
+  }
+}

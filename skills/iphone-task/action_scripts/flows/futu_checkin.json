@@ -1,0 +1,77 @@
+{
+  "intent": "富途牛牛每日签到领牛币",
+  "device": "anchors written against 富途牛牛 App, 简体中文, iOS 18. Not yet replayed.",
+  "anchor_notes": [
+    "富途是券商 App，同一棵导航树上挂着交易、下单、转账。签到本身只是积分，不动钱。",
+    "所以这个 flow 每一步点击前都先断言没有落到交易界面（screen_not_contains 买入/卖出/下单/委托）。",
+    "tap_text 的全局 denylist 也会拒绝点这些文案。两层是故意的：断言防的是走错路，denylist 防的是文案漂移把按钮换到了错的位置。",
+    "如果签到入口在 App 里被挪了位置，改 any_of 文案，绝不要为了跑通而删掉这些断言。"
+  ],
+  "steps": [
+    {
+      "action": "open_app",
+      "app": "${APP}",
+      "settle": 1.5
+    },
+    {
+      "action": "assert",
+      "type": "screen_any_of",
+      "value": ["富途", "牛牛", "行情", "首页", "我的"],
+      "retries": 8,
+      "interval": 2.0
+    },
+    {
+      "action": "assert",
+      "type": "screen_not_contains",
+      "value": ["请输入交易密码", "确认下单"],
+      "retries": 1
+    },
+    {
+      "action": "tap_text",
+      "any_of": ["我的"],
+      "prefer": "bottom",
+      "retries": 4
+    },
+    {
+      "action": "assert",
+      "type": "screen_any_of",
+      "value": ["签到", "牛币", "积分", "设置", "我的"],
+      "retries": 6
+    },
+    {
+      "action": "tap_text",
+      "any_of": ["签到", "每日签到", "牛币"],
+      "exclude": ["已签到", "已连续"],
+      "prefer": "first",
+      "scroll": "down",
+      "scroll_max": 2,
+      "retries": 5,
+      "skip_if": {
+        "type": "screen_any_of",
+        "value": ["已签到", "明日签到", "已连续签到"]
+      }
+    },
+    {
+      "action": "assert",
+      "type": "screen_not_contains",
+      "value": ["买入", "卖出", "下单", "委托"],
+      "retries": 1
+    },
+    {
+      "action": "tap_text",
+      "any_of": ["立即签到", "签到"],
+      "exclude": ["已签到", "已领取", "明日"],
+      "prefer": "largest",
+      "retries": 4,
+      "optional": true,
+      "skip_if": {
+        "type": "screen_any_of",
+        "value": ["已签到", "明日签到", "已领取", "连续签到"]
+      }
+    },
+    {
+      "action": "sleep",
+      "seconds": 3
+    }
+  ]
+}
