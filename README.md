@@ -38,6 +38,9 @@ claude --plugin-dir ./path/to/kivi-claude-skills
 | `deep-read` | Deep reading of long material: triage → traceable evidence layer → bottom-up notes → tension map → inverted Feynman |
 | `mac-disk-cleanup` | macOS disk triage and cleanup: scan, classify, migrate to external, scheduled launchd job |
 | `tidy` | Directory tidying: recon, semantic classification, dedup, verified staged deletion, index generation |
+| `ui-fidelity` | Design→code fidelity loop: per-screen read, state matrix, token extraction, CV diff + VLM review, interaction assertions |
+| `autonomous-dev-loop` | Resumable autonomous task loop: fresh-context implementer subagent → orchestrator-run verification gate → independent code review before commit |
+| `finding-unknowns` | Surface unknown unknowns before rework: blind spot passes, throwaway prototypes, one-question interviews, decision-first plans, comprehension quizzes |
 
 ## Usage
 
