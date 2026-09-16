@@ -13,6 +13,7 @@
 | **L5** | plist 里写 `~/.local/bin/x.sh` 或 `$HOME/...` 不生效 | **plist 不做 `~` / `$HOME` 展开**，必须绝对路径 | 模板里用 `__HOME__` 占位符，install 脚本 `sed` 换成真实家目录 |
 | **L6** | 定时任务静默烂掉，几个月后才发现没跑 | 没有失败告知机制 | `trap ... EXIT` 捕获非零退出并推送通知；`launchctl print gui/$UID/<label> \| grep "last exit"` 查上次退出码 |
 | **L7** | install 脚本报 `LABEL�: unbound variable` 之类 | shell 变量名后**紧跟中文全角字符**，bash 把多字节字节吞进变量名 | 用 `${LABEL}` 显式界定边界 |
+| **L8** | 清理脚本跑到一半静默停了，后面几项从没执行过 | 白名单守卫对不合规路径 `return 1`，在 `set -e` 下直接把整个脚本带走。`/private/tmp/claude-<uid>` 下混着 `bash-edit-diff/` 这类非会话目录，末段是哈希不是 UUID，一进守卫就触发 | 遍历入口就按命名规则过滤掉非目标目录；调用点再兜一层 `\|\| true`。守卫的职责是拒绝，不是终止 |
 
 ## 迁移 / 删除
 
@@ -33,3 +34,5 @@
 | **J1** | 判断一个大镜像/文件是死是活 | 看 `atime`（`stat -f "%Sa"`，最后读取时间）和 `lsof <file>`（谁打开着），别只看 `du` 大小或 mtime |
 | **J2** | 稀疏文件迷惑 | VM 镜像逻辑大小可能是 TB 级（`stat -f%z`），实占才几 G（`du -h`）。看实占判断收益 |
 | **J3** | 搞清占空间的到底是什么 | 例：LM Studio 占空间常是 `extensions/backends`（推理引擎）而非 `models`（模型可能是 0B）。对症才能选对处理方式 |
+| **J4** | 判断 Claude 会话工作区（`/private/tmp/claude-<uid>/<slug>/<sessionId>`）是死是活 | **桌面 App 的 `local_xxx` 会话 id 和工作区目录用的 CLI 侧 sessionId 不是同一套**，拿 App 的会话列表去比对目录名，会得出「全都不在列表里＝全是死会话」的错误结论。正确判据是 transcript 的最后写入时间：`~/.claude/projects/<同名slug>/<sessionId>.jsonl` 的 mtime。文件不存在＝纯残留 |
+| **J5** | 用工作区内文件的 mtime 判断会话活跃度 | 两个方向都会判错：后台任务会在会话结束后继续往 `tasks/` 写输出，让死会话看起来活着；会话正在跑但半小时没碰工作区也很常见。同样看 transcript mtime，并分级处理——1 小时内活跃的一个字节都别碰，1 小时到 3 天的只回收 `*.xcresult` / `dd-*` 这类纯构建产物，超过 3 天再整删 |

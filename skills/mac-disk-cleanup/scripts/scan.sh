@@ -14,7 +14,16 @@ hr "磁盘可用（Data 卷才是真正会满的）"
 df -h /System/Volumes/Data | awk 'NR==1 || /Data/{print}'
 
 hr "家目录顶层 top 20"
-du -sh -x "$HOME"/* 2>/dev/null | sort -rh | head -20
+# 逐项跳过挂载点：-x 只保证「不跨出起点所在的文件系统」，而这里是对每个顶层项分别起 du，
+# 起点本身就落在挂载上时它拦不住。~/OrbStack 这类网络挂载（1.3TB）会让扫描卡住几分钟。
+for d in "$HOME"/*; do
+    [ -e "$d" ] || continue
+    if mount | grep -q " on ${d} "; then
+        echo "   (skip) ${d##*/} —— 挂载点，不占内置盘"
+        continue
+    fi
+    du -sh -x "$d" 2>/dev/null
+done | sort -rh | head -20
 
 hr "隐藏目录 top 15（开发工具链/缓存常在此）"
 du -sh "$HOME"/.[a-z]* 2>/dev/null | sort -rh | head -15
