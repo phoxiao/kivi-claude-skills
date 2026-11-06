@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>服务监控</title>
+<style>
+  body { font-family: sans-serif; background: #f5f6fa; padding: 24px; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .inner { border: 1px solid #eee; border-radius: 8px; padding: 12px; margin-top: 8px; }
+  .hint { color: #888; font-size: 12px; }
+  .ok { color: green; }
+  .bad { color: red; }
+  .badge { background: linear-gradient(90deg, #7c3aed, #ec4899); color: #fff; border-radius: 99px; padding: 2px 8px; font-size: 11px; }
+</style>
+</head>
+<body>
+  <p class="hint">首页 / 服务监控</p>
+  <h1>🚀 服务监控 <span class="badge">AI 驱动</span></h1>
+  <p>一站式智能监控平台，助您轻松掌控所有服务的运行状况。</p>
+
+  <div class="card">
+    <h2>📊 服务概览</h2>
+    <p class="hint">这里展示了您所有服务的关键指标，帮助您快速了解整体情况。</p>
+    <div class="inner">
+      <h3>错误率</h3>
+      <p class="hint">错误率是指失败请求占总请求的比例。</p>
+      <strong>2.4%</strong> <span class="hint">近 1 小时</span>
+    </div>
+    <div class="inner">
+      <h3>P99 延迟</h3>
+      <p class="hint">P99 延迟反映了最慢请求的响应时间。</p>
+      <strong>840</strong> <span class="hint">ms</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 服务列表</h2>
+    <p class="hint">下方列出了所有服务，您可以点击按钮进行重启操作。</p>
+    <div class="inner">api-gateway <span class="ok">● 运行正常</span> <button title="重启">🔄</button></div>
+    <div class="inner">billing <span class="ok">● 运行正常</span> <button title="重启">🔄</button></div>
+    <div class="inner">search <span class="bad">●</span> <button title="重启">🔄</button></div>
+    <div class="inner">
+      <button onclick="confirm('确定删除 billing 吗？该服务的全部告警规则和历史数据将一并删除，无法恢复。')">删除 billing</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<title>卸载分诊台</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F2F5F2; --surface:#FFFFFF; --surface-2:#E9EEEA;
+  --ink:#171C19; --ink-2:#4C5852; --ink-3:#77837C;
+  --line:#D6DED8; --line-strong:#B8C4BC;
+  --accent:#2F6F5E; --accent-soft:#DCEAE4; --accent-ink:#1E4A3E;
+  --warn:#8A6414; --warn-soft:#F4EAD2;
+  --crit:#9B3E31; --crit-soft:#F6E0DC;
+  --bar:#8FBCAC;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#101512; --surface:#19201C; --surface-2:#212a25;
+    --ink:#E6EDE8; --ink-2:#A9B7B0; --ink-3:#7C8C84;
+    --line:#2C3832; --line-strong:#3C4A43;
+    --accent:#5FB299; --accent-soft:#1E332C; --accent-ink:#8FD3BD;
+    --warn:#D6A94E; --warn-soft:#33290F;
+    --crit:#D98577; --crit-soft:#38201C;
+    --bar:#3D6D5D;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101512; --surface:#19201C; --surface-2:#212a25;
+  --ink:#E6EDE8; --ink-2:#A9B7B0; --ink-3:#7C8C84;
+  --line:#2C3832; --line-strong:#3C4A43;
+  --accent:#5FB299; --accent-soft:#1E332C; --accent-ink:#8FD3BD;
+  --warn:#D6A94E; --warn-soft:#33290F;
+  --crit:#D98577; --crit-soft:#38201C;
+  --bar:#3D6D5D;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);
+  font:400 14px/1.5 "IBM Plex Sans",-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+  padding:0 0 96px}
+.mono{font-family:"IBM Plex Mono","SF Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+header{border-bottom:1px solid var(--line);background:var(--surface);padding:22px 0 18px;margin-bottom:20px}
+h1{margin:0 0 4px;font-size:21px;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.sub{margin:0;color:var(--ink-3);font-size:12.5px}
+.sub b{color:var(--ink-2);font-weight:500}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+input[type=search]{flex:1 1 200px;min-width:170px;padding:8px 11px;border:1px solid var(--line-strong);
+  border-radius:7px;background:var(--surface);color:var(--ink);font:inherit}
+input[type=search]:focus-visible,select:focus-visible,button:focus-visible,
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+select{padding:8px 10px;border:1px solid var(--line-strong);border-radius:7px;
+  background:var(--surface);color:var(--ink);font:inherit}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.chip{padding:5px 11px;border:1px solid var(--line-strong);border-radius:999px;background:var(--surface);
+  color:var(--ink-2);font-size:12.5px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip[aria-pressed="true"]{color:#0E1512}}
+:root[data-theme="dark"] .chip[aria-pressed="true"]{color:#0E1512}
+
+table{width:100%;border-collapse:collapse;background:var(--surface);
+  border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.tablewrap{overflow-x:auto}
+th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink-3);padding:9px 12px;border-bottom:1px solid var(--line);background:var(--surface-2);
+  white-space:nowrap;cursor:pointer;user-select:none}
+th.nosort{cursor:default}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr.sel td{background:var(--accent-soft)}
+tr.blocked td{opacity:.55}
+.nm{font-weight:500}
+.bid{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+.szcell{white-space:nowrap}
+.sz{font-size:13.5px;font-weight:500}
+.szsub{font-size:11px;color:var(--ink-3);margin-left:5px}
+.barbg{height:3px;background:var(--surface-2);border-radius:2px;margin-top:5px;width:110px}
+.barfg{height:3px;background:var(--bar);border-radius:2px}
+.idle{white-space:nowrap;font-size:13px}
+.idle.cold{color:var(--accent);font-weight:500}
+.idle.warm{color:var(--ink-2)}
+.idle.hot{color:var(--warn)}
+.pills{display:flex;flex-wrap:wrap;gap:4px}
+.pill{font-size:10.5px;padding:2px 7px;border-radius:4px;white-space:nowrap;font-weight:500}
+.p-run{background:var(--warn-soft);color:var(--warn)}
+.p-ka{background:var(--crit-soft);color:var(--crit)}
+.p-setapp{background:var(--crit-soft);color:var(--crit)}
+.p-sudo{background:var(--surface-2);color:var(--ink-3)}
+details summary{cursor:pointer;font-size:11.5px;color:var(--ink-3);list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸ ";font-size:9px}
+details[open] summary::before{content:"▾ "}
+details ul{margin:6px 0 0;padding-left:14px;font-size:11.5px;color:var(--ink-2);line-height:1.7}
+input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);cursor:pointer}
+.empty{padding:34px;text-align:center;color:var(--ink-3)}
+
+.tray{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line-strong);
+  box-shadow:0 -3px 18px rgba(0,0,0,.09);padding:12px 0}
+.trayin{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.count{font-size:14px}
+.count b{font-size:19px;font-weight:600;color:var(--accent)}
+button{padding:8px 15px;border-radius:7px;border:1px solid var(--line-strong);background:var(--surface);
+  color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) button.primary{color:#0E1512}}
+:root[data-theme="dark"] button.primary{color:#0E1512}
+button:disabled{opacity:.45;cursor:not-allowed}
+pre{margin:11px 0 0;padding:11px 13px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:7px;font-size:12px;overflow-x:auto;white-space:pre;color:var(--ink)}
+.note{font-size:12px;color:var(--ink-3);margin:9px 0 0;max-width:66ch}
+</style>
+
+<header><div class="wrap">
+  <h1>卸载分诊台</h1>
+  <p class="sub">扫描于 <b id="gen"></b> · 共 <b id="tot"></b> 个应用 · 合计 <b id="totg"></b></p>
+</div></header>
+
+<div class="wrap">
+  <div class="controls">
+    <input type="search" id="q" placeholder="搜索名称或 bundle id…">
+    <select id="sort">
+      <option value="total">按占用排序</option>
+      <option value="idle">按闲置时长排序</option>
+      <option value="name">按名称排序</option>
+    </select>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="tablewrap"><table>
+    <thead><tr>
+      <th class="nosort"><input type="checkbox" id="all" title="全选当前筛选结果"></th>
+      <th class="nosort">应用</th><th data-s="total">占用</th><th data-s="idle">闲置</th>
+      <th class="nosort">状态</th><th class="nosort">残留</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <div class="empty" id="empty" hidden>没有符合条件的应用</div>
+</div>
+
+<div class="tray"><div class="wrap trayin">
+  <span class="count">已选 <b id="n">0</b> 个 · 可释放 <b id="mb">0 MB</b></span>
+  <button id="copy" class="primary" disabled>复制卸载命令</button>
+  <button id="clear" disabled>清空</button>
+</div>
+<div class="wrap"><pre id="cmd" hidden></pre>
+<p class="note" id="note" hidden></p></div></div>
+
+<script>
+const DATA = __DATA__;
+const apps = DATA.apps;
+const sel = new Set();
+let filters = new Set(), sortBy = "total", q = "";
+
+const FILTERS = [
+  ["idle90", "闲置 90 天以上", a => a.idle_days >= 90],
+  ["idle30", "闲置 30 天以上", a => a.idle_days >= 30],
+  ["big", "占用 ≥ 500MB", a => a.total_mb >= 500],
+  ["idlenow", "当前未运行", a => !a.running],
+  ["safe", "可直接卸载", a => !a.setapp && a.owner === "__ME__"],
+];
+const fmt = mb => mb >= 1024 ? (mb/1024).toFixed(1)+" GB" : mb+" MB";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const maxMb = Math.max(...apps.map(a => a.total_mb), 1);
+
+document.getElementById("gen").textContent = DATA.generated_at;
+document.getElementById("tot").textContent = apps.length;
+document.getElementById("totg").textContent = fmt(apps.reduce((s,a)=>s+a.total_mb,0));
+
+document.getElementById("chips").innerHTML = FILTERS.map(([k,l]) =>
+  `<button class="chip" data-k="${k}" aria-pressed="false">${l}</button>`).join("");
+document.getElementById("chips").onclick = e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  const k = b.dataset.k;
+  filters.has(k) ? filters.delete(k) : filters.add(k);
+  b.setAttribute("aria-pressed", filters.has(k));
+  render();
+};
+document.getElementById("q").oninput = e => { q = e.target.value.toLowerCase(); render(); };
+document.getElementById("sort").onchange = e => { sortBy = e.target.value; render(); };
+document.querySelectorAll("th[data-s]").forEach(th =>
+  th.onclick = () => { sortBy = th.dataset.s; document.getElementById("sort").value = sortBy; render(); });
+
+function visible() {
+  let r = apps.filter(a => {
+    if (q && !(a.name.toLowerCase().includes(q) || (a.bid||"").toLowerCase().includes(q))) return false;
+    for (const [k,,fn] of FILTERS) if (filters.has(k) && !fn(a)) return false;
+    return true;
+  });
+  if (sortBy === "total") r.sort((x,y) => y.total_mb - x.total_mb);
+  else if (sortBy === "idle") r.sort((x,y) => y.idle_days - x.idle_days);
+  else r.sort((x,y) => x.name.localeCompare(y.name, "zh"));
+  return r;
+}
+
+function blockReason(a) {
+  if (a.setapp) return "Setapp 托管，须在 Setapp 客户端里卸载，直接删会被装回";
+  if (a.owner !== "__ME__") return "属主是 " + a.owner + "，删除需要 sudo，脚本不会代劳";
+  return null;
+}
+
+function render() {
+  const rows = visible();
+  document.getElementById("rows").innerHTML = rows.map(a => {
+    const blocked = blockReason(a);
+    const pills = [];
+    if (a.running) pills.push('<span class="pill p-run">运行中</span>');
+    if (a.keepalive) pills.push('<span class="pill p-ka">KeepAlive 代理</span>');
+    if (a.setapp) pills.push('<span class="pill p-setapp">Setapp 托管</span>');
+    if (a.owner !== "__ME__") pills.push('<span class="pill p-sudo">需 sudo</span>');
+    const idleTxt = a.idle_days < 0 ? "无记录" : a.idle_days + " 天";
+    const idleCls = a.idle_days < 0 ? "" : a.idle_days >= 60 ? "cold" : a.idle_days >= 14 ? "warm" : "hot";
+    const res = a.paths.length
+      ? `<details><summary>${a.paths.length} 处 · ${fmt(a.res_mb)}</summary><ul>${
+          a.paths.map(p => `<li class="mono">${esc(p.p)} <span style="color:var(--ink-3)">${p.mb}M</span></li>`).join("")
+        }${a.agents.map(g => `<li class="mono" style="color:var(--crit)">${esc(g)}</li>`).join("")}</ul></details>`
+      : '<span style="color:var(--ink-3);font-size:11.5px">无</span>';
+    return `<tr class="${sel.has(a.path)?"sel":""} ${blocked?"blocked":""}">
+      <td><input type="checkbox" data-p="${esc(a.path)}" ${sel.has(a.path)?"checked":""} ${blocked?"disabled":""} ${blocked?`title="${esc(blocked)}"`:""}></td>
+      <td><span class="nm">${esc(a.name)}</span><span class="bid mono">${esc(a.bid||"—")}</span></td>
+      <td class="szcell"><span class="sz mono">${fmt(a.total_mb)}</span><span class="szsub mono">本体 ${a.app_mb}M</span>
+        <div class="barbg"><div class="barfg" style="width:${Math.max(2,a.total_mb/maxMb*100)}%"></div></div></td>
+      <td class="idle mono ${idleCls}">${idleTxt}</td>
+      <td><div class="pills">${pills.join("")||'<span style="color:var(--ink-3);font-size:11.5px">—</span>'}</div></td>
+      <td>${res}</td></tr>`;
+  }).join("");
+  document.getElementById("empty").hidden = rows.length > 0;
+  const allBox = document.getElementById("all");
+  const sels = rows.filter(a => !blockReason(a));
+  allBox.checked = sels.length > 0 && sels.every(a => sel.has(a.path));
+  allBox.disabled = sels.length === 0;
+  tray();
+}
+
+document.getElementById("rows").onchange = e => {
+  const cb = e.target.closest("input[type=checkbox]"); if (!cb) return;
+  cb.checked ? sel.add(cb.dataset.p) : sel.delete(cb.dataset.p);
+  render();
+};
+document.getElementById("all").onchange = e => {
+  visible().filter(a => !blockReason(a)).forEach(a => e.target.checked ? sel.add(a.path) : sel.delete(a.path));
+  render();
+};
+document.getElementById("clear").onclick = () => { sel.clear(); render(); };
+
+function tray() {
+  const chosen = apps.filter(a => sel.has(a.path));
+  const mb = chosen.reduce((s,a) => s + a.total_mb, 0);
+  document.getElementById("n").textContent = chosen.length;
+  document.getElementById("mb").textContent = fmt(mb);
+  document.getElementById("copy").disabled = !chosen.length;
+  document.getElementById("clear").disabled = !chosen.length;
+  const pre = document.getElementById("cmd"), note = document.getElementById("note");
+  if (!chosen.length) { pre.hidden = true; note.hidden = true; return; }
+  pre.hidden = false; note.hidden = false;
+  pre.textContent = chosen.map(a =>
+    `${DATA.script} "${a.name}" --execute`).join("\n");
+  const ka = chosen.filter(a => a.keepalive).map(a => a.name);
+  const run = chosen.filter(a => a.running).map(a => a.name);
+  note.textContent = "先去掉 --execute 跑一遍预演，确认清单再执行。"
+    + (run.length ? " " + run.join("、") + " 正在运行，脚本会先退出它们。" : "")
+    + (ka.length ? " " + ka.join("、") + " 带 KeepAlive 代理，脚本会先卸载代理再杀进程——顺序反了会杀不死。" : "");
+}
+
+document.getElementById("copy").onclick = async () => {
+  const b = document.getElementById("copy");
+  try { await navigator.clipboard.writeText(document.getElementById("cmd").textContent);
+        b.textContent = "已复制"; }
+  catch { b.textContent = "请手动选取下方命令"; }
+  setTimeout(() => b.textContent = "复制卸载命令", 1800);
+};
+
+render();
+</script>

@@ -1,0 +1,23 @@
+{
+  "skill_name": "mac-app-uninstall",
+  "evals": [
+    {
+      "id": 0,
+      "name": "inventory-triage",
+      "prompt": "我 Mac 内置盘快满了。帮我看看装的软件里有哪些是可以卸载腾空间的，按能省多少排一下，告诉我哪些卸了风险低哪些别碰。先别动手删。",
+      "expected_output": "一份按大小排序的应用清单，区分真闲置与只是 mdls 没记录，指出 Setapp 托管应用不能直删，给出低风险/别碰的分类"
+    },
+    {
+      "id": 1,
+      "name": "single-app-audit",
+      "prompt": "Termius 我好久没用了。卸载的话总共能省多少空间？都会删掉哪些东西？列清楚我再决定，现在别删。",
+      "expected_output": "找到 bundle id com.termius-dmg.mac，列出 Application Support/Termius 及三处以 bundle id 命名的残留，给出本体+数据的合计"
+    },
+    {
+      "id": 2,
+      "name": "keepalive-uninstall",
+      "prompt": "把 ZzFixtureApp 这个应用彻底卸载干净，包括所有残留数据和开机启动项。这是我自己造的测试应用，可以放心删。",
+      "expected_output": "按正确顺序卸载：先删 LaunchAgent 再杀进程；清掉全部 8 处残留（含 ~/.zzfixtureapp 家目录隐藏目录）；复查无残留进程"
+    }
+  ]
+}

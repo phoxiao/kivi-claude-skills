@@ -37,8 +37,10 @@ claude --plugin-dir ./path/to/kivi-claude-skills
 | `hypercontext` | Spatial context awareness with ASCII architecture rendering |
 | `deep-read` | Deep reading of long material: triage → traceable evidence layer → bottom-up notes → tension map → inverted Feynman |
 | `mac-disk-cleanup` | macOS disk triage and cleanup: scan, classify, migrate to external, scheduled launchd job |
+| `mac-app-uninstall` | macOS app uninstall: residue map across ~/Library, KeepAlive LaunchAgent handling, bundle-id-precise matching |
 | `tidy` | Directory tidying: recon, semantic classification, dedup, verified staged deletion, index generation |
 | `ui-fidelity` | Design→code fidelity loop: per-screen read, state matrix, token extraction, CV diff + VLM review, interaction assertions |
+| `ui-deslop` | Strip AI slop from product UI: per-element deletion test, layout takes over the explaining, must-keep list, AGENTS.md rule snippet |
 | `autonomous-dev-loop` | Resumable autonomous task loop: fresh-context implementer subagent → orchestrator-run verification gate → independent code review before commit |
 | `finding-unknowns` | Surface unknown unknowns before rework: blind spot passes, throwaway prototypes, one-question interviews, decision-first plans, comprehension quizzes |
 | `iphone-task` | Run registered flows on a real iPhone via iPhone Mirroring — 京东签到 / 拼多多打卡 / 富途签到, text-anchored, no coordinates |
