@@ -21,11 +21,11 @@
 ## UI/UX
 
 - Avoid unnecessary secondary labels and descriptions. Let the layout do the explaining.
-- This UI is for professional users. Convey meaning through layout, spacing, type scale, and visual hierarchy; write the interface as a tool, not a manual.
+- This UI is for professional users: write the interface as a tool, not a manual.
 - Every label, icon, badge, card, and description must serve a clear user purpose. Say each piece of information once, in the place closest to where it is used.
 - Use one level of container. Group with whitespace and alignment.
-- Show explanations for abnormal states and required actions, and put secondary details behind progressive disclosure.
-- Keep what prevents mistakes: error and empty states, a status for every row in a status column, consequences of destructive actions, units and time ranges, form labels, and accessible names for icon-only controls.
+- Put secondary details behind progressive disclosure.
+- Keep what prevents mistakes: error and empty states with their cause and next step, explicit values instead of blanks (every row in a status column), consequences of destructive actions, units and time ranges, form labels, and accessible names for icon-only controls.
 - Keep destructive actions apart from routine ones and label them with the action and its target.
 - When simplifying, keep to the facts the page already states.
 - Build the features requested; list further ideas separately for the user to decide.
